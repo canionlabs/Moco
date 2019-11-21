@@ -1,2 +1,2 @@
-settings.ini
+*.ini
 db.sqlite3
