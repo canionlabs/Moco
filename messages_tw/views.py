@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import View
 
 from django.conf import settings
@@ -13,19 +12,23 @@ class SendMessage(View):
     FROM = settings.FROM_
 
 
-    def send_message(to, message):
+    def send_message(self, to, message):
         client = Client(self.ACCOUNT_SID, self.TOKEN_TW)
 
         try:
             message = client.messages.create(
-                to = to,
-                from_ = self.FROM_,
-                body = message
+                to='+55'+to,
+                from_=self.FROM,
+                body=message,
             )
+
+            print(message.sid)
+
         except TwilioRestException as e:
-            print(e)
+            raise
+
 
     def get(self, request, *args, **kwargs):
         data = request.GET
 
-        self.send_message(to=data["token"], message=data["message"])
+        self.send_message(to=data['to'], message=data['message'])
