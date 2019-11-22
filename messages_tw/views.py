@@ -11,24 +11,38 @@ class SendMessage(View):
     TOKEN_TW = settings.AUTH_TOKEN
     FROM = settings.FROM_
 
-
-    def send_message(self, to, message):
+    #API Twilio connection
+    def client_message(self, to, from_, message):
         client = Client(self.ACCOUNT_SID, self.TOKEN_TW)
 
         try:
             message = client.messages.create(
-                to='+55'+to,
-                from_=self.FROM,
+                to=to,
+                from_=from_,
                 body=message,
             )
-
-            print(message.sid)
 
         except TwilioRestException as e:
             raise
 
+    #send message to WHATSAPP
+    def send_whatsapp(self, to, message):
+        to_whatsapp = 'whatsapp:+55'+to
+        from_ = 'whatsapp:'+self.FROM
 
+        self.client_message(to_whatsapp, from_, message)
+
+    #send message to SMS
+    def send_sms(self, to, message):
+        to_sms = '+55'+to
+        from_ = self.FROM
+
+        self.client_message(to_sms, from_, message)
+
+    #get arguments and call the functions send message
     def get(self, request, *args, **kwargs):
-        data = request.GET
+        to = request.GET.get('to')
+        message = request.GET.get('message')
 
-        self.send_message(to=data['to'], message=data['message'])
+        self.send_whatsapp(to=to, message=message)
+        self.send_sms(to=to, message=message)
