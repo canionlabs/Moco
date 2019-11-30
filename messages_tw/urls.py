@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import SendMessage
+from .views import SendWhatsappMessage, SendSMSMessage
+
 
 urlpatterns = [
-    path('message/', SendMessage.as_view(), name="send_messsage_tw"),
+    path('message/whatsapp/', SendWhatsappMessage.as_view(), name="send_whatsapp"),
+    path('message/sms/', SendSMSMessage.as_view(), name="send_sms"),
 ]
