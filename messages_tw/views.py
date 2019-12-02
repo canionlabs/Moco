@@ -1,12 +1,15 @@
 from django.views.generic import View
-from rest_framework.views import APIView
-
 from django.conf import settings
 
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+
 from twilio.rest import Client
-from twilio.base.exceptions import TwilioRestException
+
 
 class BaseMessageSender(APIView):
+
+    permission_classes = [IsAuthenticated]
 
     ACCOUNT_SID = settings.ACCOUNT_SID
     TOKEN_TW = settings.AUTH_TOKEN
