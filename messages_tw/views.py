@@ -3,6 +3,8 @@ from django.conf import settings
 
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response as DRFResponse
+from rest_framework import status
 
 from twilio.rest import Client
 
@@ -45,6 +47,8 @@ class SendWhatsappMessage(BaseMessageSender):
 
         self.send_whatsapp(to=to, message=message)
 
+        return DRFResponse(request.data, status=status.HTTP_200_OK)
+
 
 class SendSMSMessage(BaseMessageSender):
 
@@ -53,3 +57,5 @@ class SendSMSMessage(BaseMessageSender):
         message = request.data["message"]
 
         self.send_sms(to=to, message=message)
+
+        return DRFResponse(request.data, status=status.HTTP_200_OK)
