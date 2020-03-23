@@ -1,20 +1,25 @@
+from datetime import timedelta
+
+from django.conf import settings
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from django.utils import timezone
 
 User = get_user_model()
 
 
 class MessageManager(models.Manager):
     def repeatedly_recently(self, message: "Message"):
+        delay = timedelta(hours=settings.MESSAGE_DELAY_IN_HOURS)
         queryset = self.get_queryset()
         return queryset.filter(
             number_from=message.number_from,
             number_to=message.number_to,
             content=message.content,
             kind=message.kind,
-            blocked=False,
+            has_blocked=False,
             has_error=False,
+            created_at__gte=timezone.now() - delay,
         )
 
 
