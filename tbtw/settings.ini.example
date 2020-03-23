@@ -10,3 +10,5 @@ DB_HOST=example
 DB_PORT=example
 DB_USER=example
 DB_PWD=example
+
+MESSAGE_DELAY_IN_HOURS=1
