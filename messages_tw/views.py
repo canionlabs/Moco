@@ -35,7 +35,7 @@ class BaseMessageSender(APIView):
 
     def _send_message(self, to: str, message_text: str, kind: str):
         if kind == Message.WHATSAPP:
-            message = Message(
+            message = Message.objects.create(
                 creator=self.request.user,
                 number_from=f"whatsapp:{self.FROM}",
                 number_to=f"whatsapp:{to}",
