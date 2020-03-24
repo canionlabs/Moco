@@ -121,14 +121,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-#twilio data
+# Twilio Settings
 ACCOUNT_SID = config('ACCOUNT_SID')
-
 AUTH_TOKEN = config('AUTH_TOKEN')
-
 FROM_ = config('FROM')
 
-#token authentication with rest_framework
+# Internal Settings
+MESSAGE_DELAY_IN_HOURS = config("MESSAGE_DELAY_IN_HOURS", cast=int, default=1)
+
+# Token Authentication
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication'
