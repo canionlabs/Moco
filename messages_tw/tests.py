@@ -30,7 +30,7 @@ def test_with_repeatedly_recently_messages():
 def test_without_repeatedly_recently_messages():
     created_at = timezone.now() - timedelta(hours=DEFAULT_TEST_DELAY * 2)
     with freeze_time(created_at):
-        message = mommy.make(Message, created_at=created_at)
+        message = mommy.make(Message, created_at=created_at, _quantity=3)[0]
 
     message_qs = Message.objects.repeatedly_recently(message)
 
