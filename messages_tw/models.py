@@ -12,6 +12,10 @@ class MessageManager(models.Manager):
     def repeatedly_recently(self, message: "Message"):
         delay = timedelta(hours=settings.MESSAGE_DELAY_IN_HOURS)
         queryset = self.get_queryset()
+
+        if message.pk is not None:
+            queryset.exclude(pk=message.pk)
+
         return queryset.filter(
             number_from=message.number_from,
             number_to=message.number_to,
