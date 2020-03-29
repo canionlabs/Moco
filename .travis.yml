@@ -26,4 +26,5 @@ before_script:
 
 script:
   - export | grep -o "\w*=.*$" | tr -d \" > .env
+  - cat .env
   - docker-compose run web pytest
