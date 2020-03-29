@@ -6,11 +6,12 @@ services:
 before_install:
   - docker version
   - docker-compose version
+  - export > .env
 
 before_script:
+  - cat .env
   - docker-compose up --build -d
   - docker-compose ps
-  - export > .env
 
 script:
   - docker-compose run web python manage.py pytest
