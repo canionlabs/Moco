@@ -13,6 +13,4 @@ before_script:
 
 script:
   - export | grep -o "\w*=.*$" > .env
-  - cat .env
-  - ls
-  - docker-compose run web python manage.py pytest
+  - docker-compose run web pytest
