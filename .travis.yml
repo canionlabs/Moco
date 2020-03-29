@@ -12,5 +12,5 @@ before_script:
   - docker-compose ps
 
 script:
-  - export | grep -o "\w*=.*$" > .env
+  - export | grep -o "\w*=.*$" | tr -d \" > .env
   - docker-compose run web pytest
