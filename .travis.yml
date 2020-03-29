@@ -10,6 +10,8 @@ before_install:
 before_script:
   - docker-compose up --build -d
   - docker-compose ps
+  - touch .env
+  - export $(cat .env | sed 's/#.*//g' | xargs)
 
 script:
-  - docker-compose run web python manage.py tests
+  - docker-compose run web python manage.py pytest
