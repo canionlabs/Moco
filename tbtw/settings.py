@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'messages_tw',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,8 @@ MESSAGE_DELAY_IN_HOURS = config("MESSAGE_DELAY_IN_HOURS", cast=int, default=1)
 # Token Authentication
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication'
     ]
 }
