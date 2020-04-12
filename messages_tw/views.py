@@ -1,5 +1,7 @@
 from django.views.generic import View
 from django.conf import settings
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -10,9 +12,15 @@ from twilio.base.exceptions import TwilioException
 from twilio.rest import Client
 
 from messages_tw.models import Message
+from messages_tw.serializers import MessageSerializer
 
 
 class BaseMessageSender(APIView):
+    YASG_RESPONSES = {
+        status.HTTP_200_OK: "Sent successfully",
+        status.HTTP_500_INTERNAL_SERVER_ERROR: "Twilio integration error",
+        status.HTTP_400_BAD_REQUEST: "A similar message has been sent recently"
+    }
 
     permission_classes = [IsAuthenticated]
 
@@ -75,6 +83,11 @@ class BaseMessageSender(APIView):
 
 
 class SendWhatsappMessage(BaseMessageSender):
+    @swagger_auto_schema(
+        operation_description="Send Whatsapp messages",
+        request_body=MessageSerializer,
+        responses=BaseMessageSender.YASG_RESPONSES
+    )
     def post(self, request, *args, **kwargs):
         to = request.data["to"]
         message = request.data["message"]
@@ -86,6 +99,11 @@ class SendWhatsappMessage(BaseMessageSender):
 
 
 class SendSMSMessage(BaseMessageSender):
+    @swagger_auto_schema(
+        operation_description="Send SMS messages",
+        request_body=MessageSerializer,
+        responses=BaseMessageSender.YASG_RESPONSES
+    )
     def post(self, request, *args, **kwargs):
         to = request.data["to"]
         message = request.data["message"]

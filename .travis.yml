@@ -1,15 +1,30 @@
-language: python
+language: minimal
 
 services:
   - docker
 
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.25.4
+
 before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
   - docker version
   - docker-compose version
 
 before_script:
-  - docker-compose up --build -d
+  - docker-compose build
+  - docker-compose up -d
   - docker-compose ps
 
 script:
-  - docker-compose run web python manage.py tests
+  - export | grep -o "\w*=.*$" | tr -d \" > .env
+  - cat .env
+  - docker-compose run web pytest
