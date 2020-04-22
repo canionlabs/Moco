@@ -1,4 +1,4 @@
-"""tbtw URL Configuration
+"""moco URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -26,7 +26,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="TBTW API",
+      title="MOCO API",
       default_version='v1',
       description="Notification service",
       terms_of_service="https://www.google.com/policies/terms/",
