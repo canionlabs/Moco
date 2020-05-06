@@ -8,7 +8,7 @@ services:
 
   web:
     build: .
-    command: bash -c "gunicorn --bind 0.0.0.0:8001 tbtw.wsgi"
+    command: bash -c "gunicorn --bind 0.0.0.0:8001 moco.wsgi"
     volumes:
       - .:/opt/app/
       - /dev/shm:/dev/shm
